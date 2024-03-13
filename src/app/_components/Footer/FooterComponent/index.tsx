@@ -5,12 +5,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { Footer } from '../../../../payload/payload-types'
+import { Footer, Media } from '../../../../payload/payload-types'
 import { inclusions, noHeaderFooterUrls } from '../../../constants'
+import { Button } from '../../Button'
 import { Gutter } from '../../Gutter'
 
 import classes from './index.module.scss'
-import { Button } from '../../Button'
 
 const FooterComponent = ({ footer }: { footer: Footer }) => {
   const pathname = usePathname()
@@ -19,18 +19,18 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
   return (
     <footer className={noHeaderFooterUrls.includes(pathname) ? classes.hide : ''}>
       <Gutter>
-        <ul className={classes.inclusion}>
-          {inclusions.map(inclusions => (
-            <li key={inclusions.title}>
+        <ul className={classes.inclusions}>
+          {inclusions.map(inclusion => (
+            <li key={inclusion.title}>
               <Image
-                src={inclusions.icon}
-                alt={inclusions.title}
+                src={inclusion.icon}
+                alt={inclusion.title}
                 width={36}
                 height={36}
                 className={classes.icon}
               />
-              <h5 className={classes.title}>{inclusions.title}</h5>
-              <p>{inclusions.description}</p>
+              <h5 className={classes.title}>{inclusion.title}</h5>
+              <p>{inclusion.description}</p>
             </li>
           ))}
         </ul>
@@ -44,7 +44,7 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
             <p>{footer?.copyright}</p>
             <div className={classes.socialLinks}>
               {navItems.map(item => {
-                const icon = ''
+                const icon = item?.link.icon as Media
                 return (
                   <Button
                     key={item.link.label}
@@ -53,7 +53,13 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
                     newTab={true}
                     className={classes.socialLinkItem}
                   >
-                    {item.link.label}
+                    <Image
+                      src={icon?.url}
+                      alt={item.link.label}
+                      width={24}
+                      height={24}
+                      className={classes.socialIcon}
+                    />
                   </Button>
                 )
               })}
