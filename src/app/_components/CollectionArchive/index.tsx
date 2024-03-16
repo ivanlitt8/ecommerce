@@ -180,9 +180,9 @@ export const CollectionArchive: React.FC<Props> = props => {
           </div>
         )}
         <div className={classes.grid}>
-          {results.docs?.map((result, index) => {
+          {results.docs?.map(result => {
             if (typeof result === 'object' && result !== null) {
-              return <Card doc={result} relationTo={relationTo} showCategories />
+              return <Card key={result.id} doc={result} relationTo={relationTo} showCategories />
             }
 
             return null
